@@ -224,9 +224,9 @@ NSView* wxMacEditHelper::ms_viewCurrentlyEdited = nil;
 - (BOOL)control:(NSControl*)control textView:(NSTextView*)textView doCommandBySelector:(SEL)commandSelector
 {
     wxUnusedVar(textView);
-    
+
     BOOL handled = NO;
-    
+
     wxWidgetCocoaImpl* impl = (wxWidgetCocoaImpl* ) wxWidgetImpl::FindFromWXWidget( control );
     if ( impl  )
     {
@@ -404,7 +404,7 @@ NSView* wxMacEditHelper::ms_viewCurrentlyEdited = nil;
     BOOL r = [super becomeFirstResponder];
     if ( impl != NULL && r )
         impl->DoNotifyFocusSet();
-    
+
     return r;
 }
 
@@ -642,11 +642,11 @@ NSView* wxMacEditHelper::ms_viewCurrentlyEdited = nil;
 {
     wxUnusedVar(textView);
     wxUnusedVar(control);
-    
+
     BOOL handled = NO;
 
     // send back key events wx' common code knows how to handle
-    
+
     wxWidgetCocoaImpl* impl = (wxWidgetCocoaImpl* ) wxWidgetImpl::FindFromWXWidget( self );
     if ( impl  )
     {
@@ -670,7 +670,7 @@ NSView* wxMacEditHelper::ms_viewCurrentlyEdited = nil;
             }
         }
     }
-    
+
     return handled;
 }
 
@@ -729,7 +729,7 @@ wxNSTextViewControl::wxNSTextViewControl( wxTextCtrl *wxPeer, WXWidget w, long s
     [tv setVerticallyResizable:YES];
     [tv setHorizontallyResizable:hasHScroll];
     [tv setAutoresizingMask:NSViewWidthSizable];
-    
+
     if ( hasHScroll )
     {
         [[tv textContainer] setContainerSize:NSMakeSize(MAX_WIDTH, MAX_WIDTH)];
@@ -1158,6 +1158,20 @@ void wxNSTextViewControl::SetJustification()
     [m_textView setAlignment:align];
 }
 
+bool wxNSTextViewControl::DoSetMargins(const wxPoint& pt)
+{
+    [m_textView setTextContainerInset:NSMakeSize(static_cast<float>(pt.x),
+                                            static_cast<float>(pt.y))];
+    [[m_textView textContainer] setLineFragmentPadding:0.f];
+    return true;
+}
+
+wxPoint wxNSTextViewControl::DoGetMargins() const
+{
+    NSSize s = [m_textView textContainerInset];
+    return wxPoint(s.width, s.height);
+}
+
 // wxNSTextFieldControl
 
 wxNSTextFieldControl::wxNSTextFieldControl( wxTextCtrl *text, WXWidget w )
@@ -1456,6 +1470,16 @@ void wxNSTextFieldControl::SetJustification()
         align = NSLeftTextAlignment;
 
     [m_textField setAlignment:align];
+}
+
+bool wxNSTextFieldControl::DoSetMargins(const wxPoint& pt)
+{
+    return false;
+}
+
+wxPoint wxNSTextFieldControl::DoGetMargins() const
+{
+    return wxPoint(-1, -1);
 }
 
 //

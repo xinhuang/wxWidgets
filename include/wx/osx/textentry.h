@@ -87,6 +87,10 @@ public:
     virtual bool SetHint(const wxString& hint);
     virtual wxString GetHint() const;
 
+    // margins functions
+    virtual bool DoSetMargins(const wxPoint& pt);
+    virtual wxPoint DoGetMargins() const;
+
     // Implementation
     // --------------
 

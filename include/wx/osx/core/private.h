@@ -158,7 +158,7 @@ public :
                        const wxString& strHelp,
                        wxItemKind kind,
                        wxMenu *pSubMenu );
-    
+
     // handle OS specific menu items if they weren't handled during normal processing
     virtual bool DoDefault() { return false; }
 protected :
@@ -187,7 +187,7 @@ public :
     wxMenu* GetWXPeer() { return m_peer ; }
 
     virtual void PopUp( wxWindow *win, int x, int y ) = 0;
-    
+
     virtual void GetMenuBarDimensions(int &x, int &y, int &width, int &height) const
     {
         x = y = width = height = -1;
@@ -213,7 +213,7 @@ public :
     void Init();
 
     bool                IsRootControl() const { return m_isRootControl; }
-    
+
     bool                IsUserPane() const { return m_isUserPane; }
 
     wxWindowMac*        GetWXPeer() const { return m_wxPeer; }
@@ -254,7 +254,7 @@ public :
     {
         return 1.0;
     }
-    
+
     // the native coordinates may have an 'aura' for shadows etc, if this is the case the layout
     // inset indicates on which insets the real control is drawn
     virtual void        GetLayoutInset(int &left , int &top , int &right, int &bottom) const
@@ -273,7 +273,7 @@ public :
 
     virtual bool        NeedsFrame() const;
     virtual void        SetNeedsFrame( bool needs );
-    
+
     virtual void        SetDrawingEnabled(bool enabled);
 
     virtual bool        CanFocus() const = 0;
@@ -296,7 +296,7 @@ public :
     virtual void        SetCursor( const wxCursor & cursor ) = 0;
     virtual void        CaptureMouse() = 0;
     virtual void        ReleaseMouse() = 0;
-    
+
     virtual void        SetDropTarget( wxDropTarget * WXUNUSED(dropTarget) ) {}
 
     virtual wxInt32     GetValue() const = 0;
@@ -345,7 +345,7 @@ public :
     // of a known control
     static wxWidgetImpl*
                         FindBestFromWXWidget(WXWidget control);
-    
+
     static void         RemoveAssociations( wxWidgetImpl* impl);
     static void         RemoveAssociation(WXWidget control);
 
@@ -701,6 +701,9 @@ public :
 
     virtual bool SetHint(const wxString& WXUNUSED(hint)) { return false; }
     virtual void SetJustification();
+
+    virtual bool DoSetMargins(const wxPoint& pt) = 0;
+    virtual wxPoint DoGetMargins() const = 0;
 private:
     wxTextEntry * const m_entry;
 
@@ -883,7 +886,7 @@ public :
     virtual void ScreenToWindow( int *x, int *y ) = 0;
 
     virtual void WindowToScreen( int *x, int *y ) = 0;
-    
+
     virtual bool IsActive() = 0;
 
     wxNonOwnedWindow*   GetWXPeer() { return m_wxPeer; }

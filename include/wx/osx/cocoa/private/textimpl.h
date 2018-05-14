@@ -77,6 +77,9 @@ public :
 
     virtual void SetInternalSelection( long from , long to );
     virtual void UpdateInternalSelectionFromEditor( wxNSTextFieldEditor* editor);
+
+    virtual bool DoSetMargins(const wxPoint& pt);
+    virtual wxPoint DoGetMargins() const;
 protected :
     NSTextField* m_textField;
     long m_selStart;
@@ -97,7 +100,7 @@ public:
     virtual ~wxNSTextViewControl();
 
     virtual void insertText(NSString* text, WXWidget slf, void *_cmd) wxOVERRIDE;
-    
+
     virtual wxString GetStringValue() const wxOVERRIDE ;
     virtual void SetStringValue( const wxString &str) wxOVERRIDE ;
     virtual void Copy() wxOVERRIDE ;
@@ -129,6 +132,9 @@ public:
     virtual void SetJustification() wxOVERRIDE;
 
     virtual void controlTextDidChange() wxOVERRIDE;
+
+    virtual bool DoSetMargins(const wxPoint& pt) wxOVERRIDE;
+    virtual wxPoint DoGetMargins() const wxOVERRIDE;
 
 protected:
     void DoUpdateTextStyle();

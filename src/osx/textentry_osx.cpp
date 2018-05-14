@@ -315,6 +315,22 @@ wxString wxTextEntry::GetHint() const
     return m_hintString;
 }
 
+bool wxTextEntry::DoSetMargins(const wxPoint& pt)
+{
+    return GetTextPeer() && GetTextPeer()->DoSetMargins(pt);
+}
+
+wxPoint wxTextEntry::DoGetMargins() const
+{
+    if (GetTextPeer())
+    {
+        return GetTextPeer()->DoGetMargins();
+    }
+    else
+    {
+        return wxPoint(-1, -1);
+    }
+}
 
 // ----------------------------------------------------------------------------
 // Auto-completion
