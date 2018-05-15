@@ -704,6 +704,7 @@ public :
 
     virtual bool DoSetMargins(const wxPoint& pt) = 0;
     virtual wxPoint DoGetMargins() const = 0;
+    virtual wxSize DoGetSizeFromTextSize(int x, int y) const = 0;
 private:
     wxTextEntry * const m_entry;
 

@@ -128,7 +128,7 @@ NSView* wxMacEditHelper::ms_viewCurrentlyEdited = nil;
 
 @implementation wxTextEntryFormatter
 
-- (id)init 
+- (id)init
 {
     if ( self = [super init] )
     {
@@ -138,7 +138,7 @@ NSView* wxMacEditHelper::ms_viewCurrentlyEdited = nil;
     return self;
 }
 
-- (void) setMaxLength:(int) maxlen 
+- (void) setMaxLength:(int) maxlen
 {
     maxLength = maxlen;
 }
@@ -148,20 +148,20 @@ NSView* wxMacEditHelper::ms_viewCurrentlyEdited = nil;
     forceUpper = true;
 }
 
-- (NSString *)stringForObjectValue:(id)anObject 
+- (NSString *)stringForObjectValue:(id)anObject
 {
     if(![anObject isKindOfClass:[NSString class]])
         return nil;
     return [NSString stringWithString:anObject];
 }
 
-- (BOOL)getObjectValue:(id *)obj forString:(NSString *)string errorDescription:(NSString  **)error 
+- (BOOL)getObjectValue:(id *)obj forString:(NSString *)string errorDescription:(NSString  **)error
 {
     *obj = [NSString stringWithString:string];
     return YES;
 }
 
-- (BOOL)isPartialStringValid:(NSString **)partialStringPtr proposedSelectedRange:(NSRangePointer)proposedSelRangePtr 
+- (BOOL)isPartialStringValid:(NSString **)partialStringPtr proposedSelectedRange:(NSRangePointer)proposedSelRangePtr
               originalString:(NSString *)origString originalSelectedRange:(NSRange)origSelRange errorDescription:(NSString **)error
 {
     if ( maxLength > 0 )
@@ -320,7 +320,7 @@ NSView* wxMacEditHelper::ms_viewCurrentlyEdited = nil;
             }
         }
     }
-    
+
     return handled;
 }
 
@@ -1024,14 +1024,14 @@ void wxNSTextViewControl::SetFont( const wxFont & font , const wxColour& WXUNUSE
 bool wxNSTextViewControl::GetStyle(long position, wxTextAttr& style)
 {
     if (m_textView && position >=0)
-    {   
+    {
         NSFont* font = NULL;
         NSColor* bgcolor = NULL;
         NSColor* fgcolor = NULL;
         // NOTE: It appears that other platforms accept GetStyle with the position == length
         // but that NSTextStorage does not accept length as a valid position.
         // Therefore we return the default control style in that case.
-        if (position < (long) [[m_textView string] length]) 
+        if (position < (long) [[m_textView string] length])
         {
             NSTextStorage* storage = [m_textView textStorage];
             font = [storage attribute:NSFontAttributeName atIndex:position effectiveRange:NULL];
@@ -1045,13 +1045,13 @@ bool wxNSTextViewControl::GetStyle(long position, wxTextAttr& style)
             bgcolor = [attrs objectForKey:NSBackgroundColorAttributeName];
             fgcolor = [attrs objectForKey:NSForegroundColorAttributeName];
         }
-        
+
         if (font)
             style.SetFont(wxFont(font));
-        
+
         if (bgcolor)
             style.SetBackgroundColour(wxColour(bgcolor));
-            
+
         if (fgcolor)
             style.SetTextColour(wxColour(fgcolor));
         return true;
@@ -1094,7 +1094,7 @@ void wxNSTextViewControl::SetStyle(long start,
         if ( style.HasTextColour() )
             [storage addAttribute:NSForegroundColorAttributeName value:style.GetTextColour().OSXGetNSColor() range:range];
     }
-        
+
     if ( style.HasAlignment() )
     {
         switch ( style.GetAlignment() )
@@ -1170,6 +1170,17 @@ wxPoint wxNSTextViewControl::DoGetMargins() const
 {
     NSSize s = [m_textView textContainerInset];
     return wxPoint(s.width, s.height);
+}
+
+wxSize wxNSTextViewControl::DoGetSizeFromTextSize(int x, int y) const
+{
+    NSFont* font = [m_textView font];
+    NSDictionary *attributes = @{NSFontAttributeName: font};
+    NSString* text = [[m_textView textStorage] string];
+    CGSize size = [text sizeWithAttributes:attributes];
+    int w = ceil(size.width);
+    int h = ceil(size.height);
+    return wxSize(w, h);
 }
 
 // wxNSTextFieldControl
@@ -1482,6 +1493,11 @@ wxPoint wxNSTextFieldControl::DoGetMargins() const
     return wxPoint(-1, -1);
 }
 
+wxSize wxNSTextFieldControl::DoGetSizeFromTextSize(int, int) const
+{
+    return wxSize(-1, -1);
+}
+
 //
 //
 //
@@ -1521,12 +1537,12 @@ wxWidgetImplType* wxWidgetImpl::CreateTextControl( wxTextCtrl* wxpeer,
         {
             [v setAlignment:NSCenterTextAlignment];
         }
-                
+
         NSTextFieldCell* cell = [v cell];
         [cell setUsesSingleLineMode:YES];
 
         c = new wxNSTextFieldControl( wxpeer, wxpeer, v );
-        
+
         if ( (style & wxNO_BORDER) || (style & wxSIMPLE_BORDER) )
         {
             // under 10.7 the textcontrol can draw its own focus

@@ -78,8 +78,9 @@ public :
     virtual void SetInternalSelection( long from , long to );
     virtual void UpdateInternalSelectionFromEditor( wxNSTextFieldEditor* editor);
 
-    virtual bool DoSetMargins(const wxPoint& pt);
-    virtual wxPoint DoGetMargins() const;
+    virtual bool DoSetMargins(const wxPoint& pt) wxOVERRIDE;
+    virtual wxPoint DoGetMargins() const wxOVERRIDE;
+    virtual wxSize DoGetSizeFromTextSize(int x, int y) const wxOVERRIDE;
 protected :
     NSTextField* m_textField;
     long m_selStart;
@@ -135,6 +136,7 @@ public:
 
     virtual bool DoSetMargins(const wxPoint& pt) wxOVERRIDE;
     virtual wxPoint DoGetMargins() const wxOVERRIDE;
+    virtual wxSize DoGetSizeFromTextSize(int x, int y) const wxOVERRIDE;
 
 protected:
     void DoUpdateTextStyle();

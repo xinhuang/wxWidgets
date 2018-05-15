@@ -244,6 +244,18 @@ wxSize wxTextCtrl::DoGetBestSize() const
     return wxSize(wText, hText);
 }
 
+wxSize wxTextCtrl::DoGetSizeFromTextSize(int x, int y) const
+{
+    if (GetTextPeer())
+    {
+        return GetTextPeer()->DoGetSizeFromTextSize(x, y);
+    }
+    else
+    {
+        return wxSize(-1, -1);
+    }
+}
+
 bool wxTextCtrl::GetStyle(long position, wxTextAttr& style)
 {
     return GetTextPeer()->GetStyle(position, style);
